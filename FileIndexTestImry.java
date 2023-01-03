@@ -105,7 +105,7 @@ class FileIndexTestImry {
 		assertEquals(fileNames, Arrays.asList(new String[] {"these_walls.txt","money_trees.txt"}));
 		assertEquals(TFIDFS, Arrays.asList(new Double[] {0.053257961222427146,0.03245096795720893}));
 	}
-	
+	@Test
 	void checkSimilarCrown() throws FileIndexException {
 		//THE TWO CLOSEST SONGS TO CROWN ARE FATHER TIME (WHICH MAKES SENSE) AND MONEY TREES
 		List<Map.Entry<String,Double>> twoClosestToCrown = kenDex.getTopKClosestDocuments("crown.txt",2);
