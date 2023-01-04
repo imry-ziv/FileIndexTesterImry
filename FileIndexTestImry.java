@@ -63,10 +63,12 @@ class FileIndexTestImry {
 		List<Map.Entry<String,Double>> topFiveHumble = kenDex.getTopKMostSignificantWords("humble.txt", 5);
 		List<String> words = listOfKStrings(topFiveHumble);
 		List<Double> TFIDFS = listOfKTFIDFS(topFiveHumble);
-		
 		assertEquals(words, Arrays.asList(new String[]{"hol","sit","lil","humble","down"}));
-		assertEquals(TFIDFS, Arrays.asList(new Double[] {0.15871619551685764,0.06961236645476211,0.06682787179657164,0.04455191453104776,0.041217230153508706}));
-	
+		List<Double> expectedVals =  Arrays.asList(new Double[] {0.15871619551685764,0.06961236645476211,0.06682787179657164,0.04455191453104776,0.041217230153508706});
+
+		for (int i=0; i < TFIDFS.size(); i++) {
+			assertEquals(TFIDFS.get(i),expectedVals.get(i), EPSILON);
+		}
 	}
 	@Test
 	void checkGetTopEightMostSignificantMoney() throws FileIndexException{
@@ -75,7 +77,11 @@ class FileIndexTestImry {
 		List<Double> TFIDFS = listOfKTFIDFS(topEightMoney);
 	
 		assertEquals(words, Arrays.asList(new String[]{"bish","ya","dollar","day","nah","feel","how","one"}));
-		assertEquals(TFIDFS, Arrays.asList(new Double[]{0.04184887312938072,0.04184887312938072,0.0174370304705753,0.012205921329402711,0.011912772245384465,0.01092004122493576,0.01092004122493576,0.01092004122493576}));
+		List<Double> expectedVals =  Arrays.asList(new Double[] {0.04184887312938072,0.04184887312938072,0.0174370304705753,0.012205921329402711,0.011912772245384465,0.01092004122493576,0.01092004122493576,0.01092004122493576});
+
+		for (int i=0; i < TFIDFS.size(); i++) {
+			assertEquals(TFIDFS.get(i),expectedVals.get(i), EPSILON);
+		}
 
 	}
 	@Test
@@ -84,15 +90,19 @@ class FileIndexTestImry {
 		List<String> words = listOfKStrings(topFourWalls);
 		List<Double> TFIDFS = listOfKTFIDFS(topFourWalls);
 		assertEquals(words, Arrays.asList(new String[]{"these","walls","could","her"}));
-		assertEquals(TFIDFS, Arrays.asList(new Double[]{0.05124114916577453,0.038455037951303186,0.02121657266278796,0.016304002007291898}));
+		
+		List<Double> expectedVals = Arrays.asList(new Double[] {0.05124114916577453,0.038455037951303186,0.02121657266278796,0.016304002007291898});
+		for (int i=0; i < TFIDFS.size(); i++) {
+			assertEquals(TFIDFS.get(i),expectedVals.get(i), EPSILON);
+		}
 
 	}
 	
 	@Test
 	void checkGetCosineSimilarity() throws FileIndexException{
-		assertEquals(kenDex.getCosineSimilarity("father_time.txt", "crown.txt"),0.02813121395755953);
-		assertEquals(kenDex.getCosineSimilarity("money_trees.txt", "these_walls.txt"),0.036476855408337186);
-		assertEquals(kenDex.getCosineSimilarity("humble.txt", "money_trees.txt"),0.0073478682703409974);
+		assertEquals(kenDex.getCosineSimilarity("father_time.txt", "crown.txt"),0.02813121395755953, EPSILON);
+		assertEquals(kenDex.getCosineSimilarity("money_trees.txt", "these_walls.txt"),0.036476855408337186, EPSILON);
+		assertEquals(kenDex.getCosineSimilarity("humble.txt", "money_trees.txt"),0.0073478682703409974, EPSILON);
 	}
 	@Test
 	void checkSimilarFatherTime() throws FileIndexException{
