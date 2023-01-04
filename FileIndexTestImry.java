@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
  
 
 class FileIndexTestImry {
-	
+	private static final double EPSILON = 0.00001;
 	public String folderPath = "./resources/hw8/kendrick_input";
 	public FileIndex kenDex = new FileIndex();
 	public int a = 3;
@@ -42,19 +42,19 @@ class FileIndexTestImry {
 	
 	@Test
 	void checkGetTF() throws FileIndexException{ //CHECK ORDERING OF FILENAME AND WORD
-		assertEquals(kenDex.getTF("walls","these_walls.txt"), (double)29 / 691);
-		assertEquals(kenDex.getTF("nazareth","these_walls.txt"), (double)1 / 691);
-		assertEquals(kenDex.getTF("bitch","humble.txt"), (double)32 / 578);
-		assertEquals(kenDex.getTF("Rosalia", "humble.txt"), 0.0); //Rosalia doesn't appear in a Kendrick song (yet)
+		assertEquals(kenDex.getTF("walls","these_walls.txt"), (double)29 / 691, EPSILON);
+		assertEquals(kenDex.getTF("nazareth","these_walls.txt"), (double)1 / 691, EPSILON);
+		assertEquals(kenDex.getTF("bitch","humble.txt"), (double)32 / 578, EPSILON);
+		assertEquals(kenDex.getTF("Rosalia", "humble.txt"), 0.0, EPSILON); //Rosalia doesn't appear in a Kendrick song (yet)
 		
 	}
 	@Test
 	void checkGetIDF() throws FileIndexException{
 		int numOfDocs = 5;
-		assertEquals(kenDex.getIDF("talk"), Math.log((double)numOfDocs/3)); //"Talk" appears in These Walls, Humble, Father Time
-		assertEquals(kenDex.getIDF("dAdDy"), Math.log((double)numOfDocs/2)); //"Daddy" appears in These Walls, Father Time
-		assertEquals(kenDex.getIDF("Counterfeits"), Math.log((double)numOfDocs/1)); //"Counterfeits" appears in Humble
-		assertEquals(kenDex.getIDF("I"), Math.log((double)numOfDocs/numOfDocs)); //"I" obviously appears in all songs
+		assertEquals(kenDex.getIDF("talk"), Math.log((double)numOfDocs/3), EPSILON); //"Talk" appears in These Walls, Humble, Father Time
+		assertEquals(kenDex.getIDF("dAdDy"), Math.log((double)numOfDocs/2), EPSILON); //"Daddy" appears in These Walls, Father Time
+		assertEquals(kenDex.getIDF("Counterfeits"), Math.log((double)numOfDocs/1), EPSILON); //"Counterfeits" appears in Humble
+		assertEquals(kenDex.getIDF("I"), Math.log((double)numOfDocs/numOfDocs), EPSILON); //"I" obviously appears in all songs
 
 	}
 	
@@ -101,9 +101,13 @@ class FileIndexTestImry {
 		List<Map.Entry<String,Double>> twoClosestToFatherTime = kenDex.getTopKClosestDocuments("father_time.txt",2);
 		List<String> fileNames = listOfKStrings(twoClosestToFatherTime);
 		List<Double> TFIDFS = listOfKTFIDFS(twoClosestToFatherTime);
-		
 		assertEquals(fileNames, Arrays.asList(new String[] {"these_walls.txt","money_trees.txt"}));
-		assertEquals(TFIDFS, Arrays.asList(new Double[] {0.053257961222427146,0.03245096795720893}));
+		List<Double> expectedVals =  Arrays.asList(new Double[] {0.053257961222427146,0.03245096795720893});
+		
+		for (int i=0; i < TFIDFS.size(); i++) {
+			assertEquals(TFIDFS.get(i),expectedVals.get(i), EPSILON);
+		}
+
 	}
 	@Test
 	void checkSimilarCrown() throws FileIndexException {
@@ -113,7 +117,11 @@ class FileIndexTestImry {
 		List<Double> TFIDFS = listOfKTFIDFS(twoClosestToCrown);
 		
 		assertEquals(fileNames, Arrays.asList(new String[] {"father_time.txt","money_trees.txt"}));
-		assertEquals(TFIDFS, Arrays.asList(new Double[] {0.02813121395755953, 0.015574629197492888}));
+		List<Double> expectedVals =  Arrays.asList(new Double[] {0.02813121395755953, 0.015574629197492888});
+		
+		for (int i=0; i < TFIDFS.size(); i++) {
+			assertEquals(TFIDFS.get(i),expectedVals.get(i), EPSILON);
+		}
 	}
 
 	///PRIVATE METHODS
